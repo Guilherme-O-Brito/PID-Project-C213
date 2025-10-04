@@ -44,6 +44,7 @@ more-itertools @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/m
 nest-asyncio==1.6.0
 numpy==2.3.3
 packaging @ file:///C:/b/abs_f7t3vr2_lo/croot/packaging_1753775377650/work
+pandas==2.3.3
 parso==0.8.4
 pillow==11.3.0
 pkce @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pkce_1729049216383/work
@@ -64,12 +65,14 @@ PySide6_Essentials==6.9.3
 PySocks @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pysocks_1729039320841/work
 python-dateutil==2.9.0.post0
 python-dotenv @ file:///C:/b/abs_71cpoh9hpg/croot/python-dotenv_1745613639902/work
+pytz==2025.2
 pywin32-ctypes @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pywin32-ctypes_1729046491215/work
 readchar @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/readchar_1729051800756/work
 requests @ file:///C:/b/abs_0b3h9d_724/croot/requests_1750426345668/work
 rich @ file:///C:/b/abs_8b92fzmygg/croot/rich_1732638991774/work
 ruamel.yaml @ file:///C:/b/abs_0dn1nhdq75/croot/ruamel.yaml_1745960327187/work
 ruamel.yaml.clib @ file:///C:/b/abs_475flulhy_/croot/ruamel.yaml.clib_1745937166245/work
+scipy==1.16.2
 semver @ file:///C:/b/abs_6bgol0at6h/croot/semver_1736542515243/work
 setuptools==78.1.1
 shellingham @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/shellingham_1729046672855/work
@@ -83,6 +86,7 @@ truststore @ file:///C:/b/abs_edelxif8va/croot/truststore_1753907192099/work
 typer @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/typer_1729052194947/work
 typing-inspection @ file:///C:/b/abs_261c5jt6kx/croot/typing-inspection_1746023491500/work
 typing_extensions @ file:///C:/b/abs_0ffjxtihug/croot/typing_extensions_1734714875646/work
+tzdata==2025.2
 urllib3 @ file:///C:/b/abs_393g1ayee_/croot/urllib3_1750775481226/work
 wcwidth==0.2.13
 wheel==0.45.1

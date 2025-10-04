@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QTabWidget
 #from ui.pages.page_ import PageInicio
-#from ui.pages.page_identificacao import PageIdentificacao
+from ui.pages.page_read_dataset import PageReadDataset
 from ui.pages.page_controll_pid import PageControllPID
 
 class MainWindow(QMainWindow):
@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
 
         self.tabs = QTabWidget()
         #self.tabs.addTab(PageInicio(), "Início")
-        #self.tabs.addTab(PageIdentificacao(), "Identificação")
+        self.tabs.addTab(PageReadDataset(), "Identificação")
         self.tabs.addTab(PageControllPID(), "Controle PID")
 
         self.setCentralWidget(self.tabs)
