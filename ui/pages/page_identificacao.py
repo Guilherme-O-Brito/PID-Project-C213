@@ -62,14 +62,14 @@ class PageIdentificacao(QWidget):
         side_form_layout.addWidget(export_button)
 
         # --- Montagem final do form ---
-        grafic_layout = QHBoxLayout()   
+        chart_layout = QHBoxLayout()   
         self.plot = PlotWidget(
             title='Resposta do Sistema',
             x_label='Tempo',
             y_label='Amplitude'
         )
-        grafic_layout.addWidget(self.plot)
-        grafic_layout.addLayout(side_form_layout)
+        chart_layout.addWidget(self.plot)
+        chart_layout.addLayout(side_form_layout)
 
 
         # --- Montagem final ---
@@ -79,7 +79,7 @@ class PageIdentificacao(QWidget):
         main_layout.addStretch()          # empurra tudo para o centro vertical
         main_layout.addWidget(label)
         main_layout.addStretch()          # empurra tudo para o centro vertical
-        main_layout.addLayout(grafic_layout)
+        main_layout.addLayout(chart_layout)
 
         self.setLayout(main_layout)
 
