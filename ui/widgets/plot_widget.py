@@ -53,6 +53,6 @@ class PlotWidget(QWidget):
         self.canvas.draw()
     
     def update_curves(self, curves: list[Curve]):
-        """Atualiza as curvas e redesenha o gráfico"""
+        # Atualiza as curvas e redesenha o gráfico
         self.curves = curves
         self.plot_chart()
