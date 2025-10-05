@@ -1,6 +1,26 @@
+from scipy.io import loadmat
+import numpy as np
 
-def import_data(path:str):
-    pass
+def import_dataset(path:str) -> dict:
+    # Importando o dataset com o caminho dado
+    dataset = loadmat(path)
+    
+    # Separando os dados lidos em arrays do numpy 
+    dados_entrada = np.array(dataset['dados_entrada'])
+    dados_saida = np.array(dataset['dados_saida'])
+    tempo = np.array(dataset['tiempo'])[0, :]
+    entrada = np.array(dataset['entrada'])[0, :]
+    saida = np.array(dataset['salida'])[0, :]
+    parametros = dataset['parametros_sistema']
+
+    return {
+        'dados_entrada': dados_entrada,
+        'dados_saida': dados_saida,
+        'tempo': tempo,
+        'entrada': entrada,
+        'saida': saida,
+        'parametros': parametros
+    }
 
 class IMC:
     def __init__(self,tau:float,teta:float,lamb:float,k:float):
