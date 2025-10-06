@@ -28,13 +28,13 @@ y_norm = (saida - saida[0]) / entrada[0]
 
 t1 = tempo[saida >= 0.283 * saida[-1]][0]
 t2 = tempo[saida >= 0.632 * saida[-1]][0]
-print(t1)
+#print(t1)
 # τ e θ pelo método da tangente aproximado
 tau = 1.5 * (t2 - t1)
 teta = t2 - tau
 
 print(f'k = {k}, Tau = {tau}, Teta = {teta}')
 
-print(parametros.shape)
+#print(parametros.shape)
 for param in parametros:
     print(param)

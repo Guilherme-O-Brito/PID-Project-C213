@@ -53,9 +53,17 @@ class PageIdentificacao(QWidget):
         self.theta_form = QDoubleSpinBox()
         self.theta_form.setMinimum(-9999999)
         self.theta_form.setEnabled(False)
+        self.eqm_form = QDoubleSpinBox()
+        self.eqm_form.setMinimum(-9999999)
+        self.eqm_form.setEnabled(False)
+        self.eqm_atraso_form = QDoubleSpinBox()
+        self.eqm_atraso_form.setMinimum(-9999999)
+        self.eqm_atraso_form.setEnabled(False)
         form.addRow("K:", self.k_form)
         form.addRow("Tau:", self.tau_form)
         form.addRow("Theta:", self.theta_form)
+        form.addRow("EQM:", self.eqm_form)
+        form.addRow("EQM com atraso:", self.eqm_atraso_form)
         export_button = QPushButton("Exportar")
 
         side_form_layout.addLayout(form)
@@ -102,19 +110,27 @@ class PageIdentificacao(QWidget):
             self.tau_form.setValue(self.identificacao_controller.tau)
             self.theta_form.setValue(self.identificacao_controller.theta)
             tempo = self.identificacao_controller.tempo
-            saida = self.identificacao_controller.saida
             entrada = self.identificacao_controller.entrada
-            
+            [sys, atraso] = self.identificacao_controller.simular()
+            # altera o valor do eqm apos simular devido ao eqm ser definido apenas apos a simulação
+            self.eqm_form.setValue(self.identificacao_controller.eqm)
+            self.eqm_atraso_form.setValue(self.identificacao_controller.eqm_atraso)
+
             curves = [
                 Curve(
-                    tempo,
-                    saida,
-                    'Saida'
+                    sys[0],
+                    sys[1],
+                    'Saida saida simulada sem atraso'
+                ),
+                Curve(
+                    atraso[0],
+                    atraso[1],
+                    'Saida simulada com atraso'
                 ),
                 Curve(
                     tempo,
                     entrada,
-                    'Entrada'
+                    'Degrau'
                 ),
             ]
             
