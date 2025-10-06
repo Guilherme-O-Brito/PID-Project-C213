@@ -1,10 +1,14 @@
-from PySide6.QtWidgets import QWidget, QRadioButton, QButtonGroup, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFormLayout, QDoubleSpinBox
+from PySide6.QtWidgets import QWidget, QRadioButton, QButtonGroup, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFormLayout, QDoubleSpinBox, QComboBox
 from PySide6.QtCore import Qt
 from ui.widgets.plot_widget import PlotWidget
 
 class PageControllPID(QWidget):
     def __init__(self):
         super().__init__()
+
+        # flags para decisão do metodo usado
+        self.is_auto = True
+        self.method = 'IMC'
 
         # Layout principal (vertical)
         main_layout = QVBoxLayout()
@@ -15,48 +19,95 @@ class PageControllPID(QWidget):
         label_title.setStyleSheet("font-size: 20px; font-weight: bold; margin-bottom: 20px;")
 
         # --- Layout dos botões (horizontal) ---
-        button_layout = QHBoxLayout()
-        button_layout.setSpacing(40)  # Espaçamento entre os botões
+        top_layout = QHBoxLayout()
+        top_layout.setSpacing(40)  # Espaçamento entre os botões
 
         radio_button_label = QLabel('Seleção de Sintonia: ')
 
         # Cria dois radio buttons
-        opcao1 = QRadioButton("Método Automático")
-        opcao2 = QRadioButton("Modo Manual")
+        self.opcao1 = QRadioButton("Método Automático")
+        self.opcao2 = QRadioButton("Modo Manual")
 
         # Agrupa para que apenas um possa ser selecionado
         radio_button = QButtonGroup(self)
-        radio_button.addButton(opcao1)
-        radio_button.addButton(opcao2)
-
+        radio_button.addButton(self.opcao1)
+        radio_button.addButton(self.opcao2)
+        
         # Define um como padrão
-        opcao1.setChecked(True)
+        self.opcao1.setChecked(True)
 
-        button_layout.addStretch()
-        button_layout.addWidget(radio_button_label)
-        button_layout.addWidget(opcao1)
-        button_layout.addWidget(opcao2)
-        button_layout.addStretch()
+        self.opcao1.toggled.connect(self.switch_methods)
+        self.opcao2.toggled.connect(self.switch_methods)    
+
+
+        # criando dropdown button para metodos ITAE e IMC
+        dropdown_label = QLabel('Selecione o método de sintonia:')
+        self.methods = QComboBox()
+        self.methods.addItems(['IMC', 'ITAE'])
+
+        self.methods.currentIndexChanged.connect(self.switch_methods)
+
+        top_layout.addStretch()
+        top_layout.addWidget(radio_button_label)
+        top_layout.addWidget(self.opcao1)
+        top_layout.addWidget(self.opcao2)
+        top_layout.addWidget(dropdown_label)
+        top_layout.addWidget(self.methods)
+        top_layout.addStretch()
 
         # --- Lateral Form Layout
         lateral_layout = QVBoxLayout()
-        form = QFormLayout()
-        self.k_form = QDoubleSpinBox()
-        self.k_form.setMinimum(-9999999)
-        self.k_form.setEnabled(False)
-        self.tau_form = QDoubleSpinBox()
-        self.tau_form.setMinimum(-9999999) 
-        self.tau_form.setEnabled(False)
-        self.theta_form = QDoubleSpinBox()
-        self.theta_form.setMinimum(-9999999)
-        self.theta_form.setEnabled(False)
-        form.addRow("K:", self.k_form)
-        form.addRow("Tau:", self.tau_form)
-        form.addRow("Theta:", self.theta_form)
+        params_form = QFormLayout()
+        
+        self.kp_form = QDoubleSpinBox()
+        self.kp_form.setMinimum(-9999999)
+        #self.kp_form.setEnabled(False)
+        self.ti_form = QDoubleSpinBox()
+        self.ti_form.setMinimum(-9999999) 
+        #self.ti_form.setEnabled(False)
+        self.td_form = QDoubleSpinBox()
+        self.td_form.setMinimum(-9999999)
+        #self.td_form.setEnabled(False)
+        self.lambda_form = QDoubleSpinBox()
+        self.lambda_form.setMinimum(-9999999)
+        #self.lambda_form.setEnabled(False)
+        params_form.addRow("Kp:", self.kp_form)
+        params_form.addRow("Ti:", self.ti_form)
+        params_form.addRow("Td:", self.td_form)
+        params_form.addRow("λ:", self.lambda_form)
+        
+        # --- buttons layout ---
+        buttons_layout = QHBoxLayout()
         export_button = QPushButton("Exportar")
+        simulate_button = QPushButton("Simular")
+        buttons_layout.addWidget(export_button)
+        buttons_layout.addWidget(simulate_button)
 
-        lateral_layout.addLayout(form)
-        lateral_layout.addWidget(export_button)
+        # --- Parametros de controle layout
+        #controlls_params_layout = QVBoxLayout()
+        controll_params_form = QFormLayout()
+
+        self.tr_form = QDoubleSpinBox()
+        self.tr_form.setMinimum(-9999999)
+        self.tr_form.setEnabled(False)
+        self.ts_form = QDoubleSpinBox()
+        self.ts_form.setMinimum(-9999999) 
+        self.ts_form.setEnabled(False)
+        self.mp_form = QDoubleSpinBox()
+        self.mp_form.setMinimum(-9999999)
+        self.mp_form.setEnabled(False)
+        self.erro_form = QDoubleSpinBox()
+        self.erro_form.setMinimum(-9999999)
+        self.erro_form.setEnabled(False)
+        controll_params_form.addRow("Tr (tempo de subida):", self.tr_form)
+        controll_params_form.addRow("Ts (acomodação):", self.ts_form)
+        controll_params_form.addRow("Mp (overshoot):", self.mp_form)
+        controll_params_form.addRow("Erro em regime permanente:", self.erro_form)
+
+        # --- conectando layouts ---
+        lateral_layout.addLayout(params_form)
+        lateral_layout.addLayout(buttons_layout)
+        lateral_layout.addLayout(controll_params_form)
 
         # --- Layout inferior
         inferior_layout = QHBoxLayout()
@@ -74,9 +125,40 @@ class PageControllPID(QWidget):
         # --- Montagem Final ---
         main_layout.addStretch()
         main_layout.addWidget(label_title)
-        main_layout.addLayout(button_layout)
+        main_layout.addLayout(top_layout)
         main_layout.addStretch()
         main_layout.addLayout(inferior_layout)
 
 
         self.setLayout(main_layout)
+
+        # chama o metodo ao final da construção da classe para iniciar em modo automatico
+        self.switch_methods()
+
+    def switch_methods(self):
+        if self.opcao1.isChecked():
+            self.kp_form.setEnabled(False)
+            self.ti_form.setEnabled(False)
+            self.td_form.setEnabled(False)
+            if self.methods.currentText() == 'IMC':
+                self.lambda_form.setEnabled(True)
+            else:
+                self.lambda_form.setEnabled(False)
+            self.is_auto = True
+            return
+
+        if self.methods.currentText() == 'IMC':
+            self.kp_form.setEnabled(True)
+            self.ti_form.setEnabled(True)
+            self.td_form.setEnabled(True)
+            self.lambda_form.setEnabled(True)
+            self.is_auto = False
+            self.method = 'IMC'
+
+        elif self.methods.currentText() == 'ITAE':
+            self.kp_form.setEnabled(True)
+            self.ti_form.setEnabled(True)
+            self.td_form.setEnabled(True)
+            self.lambda_form.setEnabled(False)
+            self.is_auto = False
+            self.method = 'ITAE'
