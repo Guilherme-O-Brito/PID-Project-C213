@@ -120,7 +120,7 @@ class PageIdentificacao(QWidget):
                 Curve(
                     sys[0],
                     sys[1],
-                    'Saida saida simulada sem atraso'
+                    'Saida simulada sem atraso'
                 ),
                 Curve(
                     atraso[0],
