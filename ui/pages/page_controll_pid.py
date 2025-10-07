@@ -1,10 +1,12 @@
 from PySide6.QtWidgets import QWidget, QRadioButton, QButtonGroup, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFormLayout, QDoubleSpinBox, QComboBox
 from PySide6.QtCore import Qt
 from ui.widgets.plot_widget import PlotWidget
+from controllers.pid_controller import PIDController
 
 class PageControllPID(QWidget):
-    def __init__(self):
+    def __init__(self, pid_controller: PIDController):
         super().__init__()
+        self.pid_controller = pid_controller
 
         # flags para decisão do metodo usado
         self.is_auto = True
