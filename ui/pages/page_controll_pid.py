@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QWidget, QRadioButton, QButtonGroup, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFormLayout, QDoubleSpinBox, QComboBox
 from PySide6.QtCore import Qt
-from ui.widgets.plot_widget import PlotWidget
+from ui.widgets.plot_widget import PlotWidget, Curve
 from controllers.pid_controller import PIDController
+import numpy as np
 
 class PageControllPID(QWidget):
     def __init__(self, pid_controller: PIDController):
@@ -84,6 +85,7 @@ class PageControllPID(QWidget):
         simulate_button = QPushButton("Simular")
         buttons_layout.addWidget(export_button)
         buttons_layout.addWidget(simulate_button)
+        simulate_button.clicked.connect(self.sintonizar)
 
         # --- Parametros de controle layout
         #controlls_params_layout = QVBoxLayout()
@@ -115,7 +117,7 @@ class PageControllPID(QWidget):
         inferior_layout = QHBoxLayout()
 
         self.plot = PlotWidget(
-            title='Resposta do Sistema',
+            title='Sistema com Controle PID',
             x_label='Tempo',
             y_label='Amplitude'
         )
@@ -164,3 +166,43 @@ class PageControllPID(QWidget):
             self.lambda_form.setEnabled(False)
             self.is_auto = False
             self.method = 'ITAE'
+
+    def sintonizar(self):
+        if self.method == 'IMC':
+            if self.is_auto:
+                lamb = self.lambda_form.value()
+                results = self.pid_controller.auto_sintonizar_IMC(lamb)
+                sintonia = results['sintonia']
+                [kp, ti, td, lamb] = results['params']
+                [tr, ts, mp, steady_value, ess] = results['controll_params']
+
+                # atualizando forms
+                self.kp_form.setValue(kp)
+                self.ti_form.setValue(ti)
+                self.td_form.setValue(td)
+                self.lambda_form.setValue(lamb)
+                self.tr_form.setValue(tr)
+                self.ts_form.setValue(ts)
+                self.mp_form.setValue(mp)
+                self.erro_form.setValue(ess)
+
+                curves = [
+                    Curve(
+                        sintonia[0],
+                        sintonia[1],
+                        'PID'
+                    ),
+                    Curve(
+                        sintonia[0],
+                        np.zeros_like(sintonia[0]) + steady_value,
+                        'Valor de Acomodação',
+                        '--'
+                    ),
+                ]
+
+                self.plot.update_curves(curves)
+
+            
+        elif self.method == 'ITAE':
+            pass
+
