@@ -10,6 +10,7 @@ class IdentificacaoController:
         self.theta = 0
         self.eqm = 0
         self.eqm_atraso = 0
+        self.pid_controller = None
 
     '''
         Realiza a leitura dos dados atraves de um dataset
@@ -27,6 +28,10 @@ class IdentificacaoController:
         entrada = np.array(dataset['entrada'])[0, :]
         saida = np.array(dataset['salida'])[0, :]
         parametros = dataset['parametros_sistema']
+
+        # passando parametros para o pid_controller
+        self.pid_controller.tempo = tempo
+        self.pid_controller.entrada = entrada
 
         self.data = {
             'dados_entrada': dados_entrada,
@@ -53,6 +58,11 @@ class IdentificacaoController:
             t2 = self.tempo[self.saida >= 0.632 * self.saida[-1]][0]
             self.tau = 1.5 * (t2 - t1)
             self.theta = t2 - self.tau
+
+            # passando parametros para o pid_controller
+            self.pid_controller.k = self.k
+            self.pid_controller.tau = self.tau
+            self.pid_controller.theta = self.theta
         else:
             raise DataNotInitialized()
 

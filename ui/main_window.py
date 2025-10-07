@@ -11,6 +11,7 @@ class MainWindow(QMainWindow):
 
         identificacao_controller = IdentificacaoController()
         pid_controller = PIDController()
+        identificacao_controller.pid_controller = pid_controller
 
         self.setWindowTitle("Projeto Prático C213 - Sistemas Embarcados")
 
