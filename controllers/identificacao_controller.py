@@ -1,4 +1,5 @@
-from core.utils import *
+from scipy.io import loadmat
+import numpy as np
 import control as ctrl
 
 class IdentificacaoController:
@@ -50,7 +51,6 @@ class IdentificacaoController:
             # Encontra tempos para 28.3% e 63.2% da resposta
             t1 = self.tempo[self.saida >= 0.283 * self.saida[-1]][0]
             t2 = self.tempo[self.saida >= 0.632 * self.saida[-1]][0]
-            # τ e θ pelo método da tangente aproximado
             self.tau = 1.5 * (t2 - t1)
             self.theta = t2 - self.tau
         else:
