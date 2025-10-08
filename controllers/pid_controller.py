@@ -13,14 +13,19 @@ class PIDController:
         # sinal de entrada (degrau)
         self.entrada = np.array([])
 
-    def auto_sintonizar_IMC(self, lamb: float):
+    def auto_sintonizar(self, method: str, lamb: float = 0):
 
-        if lamb < 0.8*self.theta:
-            lamb = 0.8*self.theta
+        if method == 'IMC':
+            if lamb < 0.8*self.theta:
+                lamb = 0.8*self.theta
 
-        kp = IMC.kp(self.k, self.theta, self.tau, lamb)
-        ti = IMC.ti(self.theta, self.tau)
-        td = IMC.td(self.theta, self.tau)
+            kp = IMC.kp(self.k, self.theta, self.tau, lamb)
+            ti = IMC.ti(self.theta, self.tau)
+            td = IMC.td(self.theta, self.tau)
+        elif method == 'ITAE':
+            kp = ITAE.kp(self.k, self.theta, self.tau)
+            ti = ITAE.ti(self.theta, self.tau)
+            td = ITAE.td(self.theta, self.tau)
         
         sys = ctrl.tf([self.k], [self.tau, 1])
         [num, den] = ctrl.pade(self.theta, 3)
@@ -57,7 +62,7 @@ class PIDController:
             'controll_params': [tr, ts, mp, steady_value, ess]
         }
     
-    def sintonizar_IMC(self, kp, ti, td):
+    def sintonizar(self, kp, ti, td):
         
         sys = ctrl.tf([self.k], [self.tau, 1])
         [num, den] = ctrl.pade(self.theta, 3)
