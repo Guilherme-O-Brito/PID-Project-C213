@@ -3,6 +3,7 @@ import control as ctrl
 from core.imc import IMC
 from core.itae import ITAE
 from core.znma import ZNMA
+from core.chr import CHR, CHR_20
 
 class PIDController:
     def __init__(self):
@@ -30,6 +31,14 @@ class PIDController:
             kp = ZNMA.kp(self.k, self.theta, self.tau)
             ti = ZNMA.ti(self.theta)
             td = ZNMA.td(self.theta)
+        elif method == 'CHR':
+            kp = CHR.kp(self.k, self.theta, self.tau)
+            ti = CHR.ti(self.tau)
+            td = CHR.td(self.theta)
+        elif method == 'CHR_20':
+            kp = CHR_20.kp(self.k, self.theta, self.tau)
+            ti = CHR_20.ti(self.tau)
+            td = CHR_20.td(self.theta)
         
         sys = ctrl.tf([self.k], [self.tau, 1])
         [num, den] = ctrl.pade(self.theta, 3)
