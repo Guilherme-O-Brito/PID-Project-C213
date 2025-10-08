@@ -69,12 +69,29 @@ class PIDController:
         resp = ctrl.feedback(cs)
 
         sintonia = np.array(ctrl.forced_response(resp, T=self.tempo, U=self.entrada))
-        controll_params = ctrl.step_info(resp)
+        
+        steady_value = np.mean(sintonia[1][-int(len(sintonia[1])*0.05):])
+
+        rise_start = np.where(sintonia[1] >= 0.1 * steady_value)[0][0]
+        rise_end = np.where(sintonia[1] >= 0.9 * steady_value)[0][0]
+        
+        tr = self.tempo[rise_end] - self.tempo[rise_start]
+        ts = 0
+        # Tempo de acomodação (2%)
+        low = steady_value * (1 - 0.02)
+        high = steady_value * (1 + 0.02)
+        for i in range(len(sintonia[1])-1, -1, -1):
+            if sintonia[1][i] < low or sintonia[1][i] > high:
+                ts = self.tempo[i]
+                break
+        mp = (np.max(sintonia[1]) - steady_value) / steady_value * 100
+        # erro em regime permanente
+        ess = self.entrada[-1] - steady_value
 
         return {
             'sintonia': sintonia,
             'params': [kp, ti, td],
-            'controll_params': controll_params
+            'controll_params': [tr, ts, mp, steady_value, ess]
         }
     
 

@@ -155,7 +155,7 @@ class PageControllPID(QWidget):
             self.kp_form.setEnabled(True)
             self.ti_form.setEnabled(True)
             self.td_form.setEnabled(True)
-            self.lambda_form.setEnabled(True)
+            self.lambda_form.setEnabled(False)
             self.is_auto = False
             self.method = 'IMC'
 
@@ -168,8 +168,10 @@ class PageControllPID(QWidget):
             self.method = 'ITAE'
 
     def sintonizar(self):
+        # metodo IMC
         if self.method == 'IMC':
             if self.is_auto:
+                # sintonia automatica
                 lamb = self.lambda_form.value()
                 results = self.pid_controller.auto_sintonizar_IMC(lamb)
                 sintonia = results['sintonia']
@@ -181,26 +183,38 @@ class PageControllPID(QWidget):
                 self.ti_form.setValue(ti)
                 self.td_form.setValue(td)
                 self.lambda_form.setValue(lamb)
-                self.tr_form.setValue(tr)
-                self.ts_form.setValue(ts)
-                self.mp_form.setValue(mp)
-                self.erro_form.setValue(ess)
 
-                curves = [
-                    Curve(
-                        sintonia[0],
-                        sintonia[1],
-                        'PID'
-                    ),
-                    Curve(
-                        sintonia[0],
-                        np.zeros_like(sintonia[0]) + steady_value,
-                        'Valor de Acomodação',
-                        '--'
-                    ),
-                ]
+            else:
+                # sintonia manual 
+                kp = self.kp_form.value()
+                ti = self.ti_form.value()
+                td = self.td_form.value()
+                results = self.pid_controller.sintonizar_IMC(kp, ti, td)
+                sintonia = results['sintonia']
+                [kp, ti, td] = results['params']
+                [tr, ts, mp, steady_value, ess] = results['controll_params']
 
-                self.plot.update_curves(curves)
+            
+            self.tr_form.setValue(tr)
+            self.ts_form.setValue(ts)
+            self.mp_form.setValue(mp)
+            self.erro_form.setValue(ess)
+            
+            curves = [
+                Curve(
+                    sintonia[0],
+                    sintonia[1],
+                    'PID'
+                ),
+                Curve(
+                    sintonia[0],
+                    np.zeros_like(sintonia[0]) + steady_value,
+                    'Valor de Acomodação',
+                    '--'
+                ),
+            ]
+
+            self.plot.update_curves(curves)
 
             
         elif self.method == 'ITAE':
