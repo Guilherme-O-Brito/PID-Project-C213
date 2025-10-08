@@ -46,7 +46,7 @@ class PageControllPID(QWidget):
         # criando dropdown button para metodos ITAE e IMC
         dropdown_label = QLabel('Selecione o método de sintonia:')
         self.methods = QComboBox()
-        self.methods.addItems(['IMC', 'ITAE'])
+        self.methods.addItems(['IMC', 'ITAE', 'ZNMA'])
 
         self.methods.currentIndexChanged.connect(self.switch_methods)
 
@@ -88,7 +88,6 @@ class PageControllPID(QWidget):
         simulate_button.clicked.connect(self.sintonizar)
 
         # --- Parametros de controle layout
-        #controlls_params_layout = QVBoxLayout()
         controll_params_form = QFormLayout()
 
         self.tr_form = QDoubleSpinBox()
@@ -152,10 +151,13 @@ class PageControllPID(QWidget):
             if self.methods.currentText() == 'IMC':
                 self.lambda_form.setEnabled(True)
                 self.method = 'IMC'
-            elif self.methods.currentText() == 'ITAE':
+            else: 
+                if self.methods.currentText() == 'ITAE':
+                    self.method = 'ITAE'
+                elif self.methods.currentText() == 'ZNMA':
+                    self.method = 'ZNMA'
                 self.lambda_form.setEnabled(False)
                 self.lambda_form.setValue(0)
-                self.method = 'ITAE'
             self.is_auto = True
         else:
             self.kp_form.setEnabled(True)

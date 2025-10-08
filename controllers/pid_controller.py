@@ -2,6 +2,7 @@ import numpy as np
 import control as ctrl
 from core.imc import IMC
 from core.itae import ITAE
+from core.znma import ZNMA
 
 class PIDController:
     def __init__(self):
@@ -18,7 +19,6 @@ class PIDController:
         if method == 'IMC':
             if lamb < 0.8*self.theta:
                 lamb = 0.8*self.theta
-
             kp = IMC.kp(self.k, self.theta, self.tau, lamb)
             ti = IMC.ti(self.theta, self.tau)
             td = IMC.td(self.theta, self.tau)
@@ -26,6 +26,10 @@ class PIDController:
             kp = ITAE.kp(self.k, self.theta, self.tau)
             ti = ITAE.ti(self.theta, self.tau)
             td = ITAE.td(self.theta, self.tau)
+        elif method == 'ZNMA':
+            kp = ZNMA.kp(self.k, self.theta, self.tau)
+            ti = ZNMA.ti(self.theta)
+            td = ZNMA.td(self.theta)
         
         sys = ctrl.tf([self.k], [self.tau, 1])
         [num, den] = ctrl.pade(self.theta, 3)
