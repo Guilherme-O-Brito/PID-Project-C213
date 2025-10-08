@@ -25,7 +25,7 @@ class PageInicio(QWidget):
         description = QLabel(
             "Este projeto tem como objetivo realizar a identificação e sintonia de um "
             "sistema de controle utilizando controladores PID. A interface permite "
-            "carregar dados experimentais, identificar os parâmetros da planta, aplicar "
+            "carregar dados experimentais, identificar os parâmetros da planta com metodo de SMITH, aplicar "
             "métodos de sintonia clássicos e analisar a resposta do sistema controlado."
         )
         description.setWordWrap(True)
@@ -33,7 +33,7 @@ class PageInicio(QWidget):
         description.setFont(QFont("Arial", 12))
         main_layout.addWidget(description)
 
-        # ---------- Espaço para nomes dos integrantes ----------
+        # ---------- Nomes dos integrantes ----------
         members_label = QLabel("Integrantes do grupo:")
         members_label.setFont(QFont("Arial", 14, QFont.Weight.Medium))
         members_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
