@@ -51,7 +51,7 @@ class IdentificacaoController:
             self.saida = self.data['saida']
             self.entrada = self.data['entrada']
             self.tempo = self.data['tempo']
-            
+            # usando metodo de smith identifica os parametros do sistema
             self.k = (self.saida[-1] - self.saida[0]) / self.entrada[0]
             # Encontra tempos para 28.3% e 63.2% da resposta
             t1 = self.tempo[self.saida >= 0.283 * self.saida[-1]][0]
