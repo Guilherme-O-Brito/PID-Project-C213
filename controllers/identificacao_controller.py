@@ -73,12 +73,10 @@ class IdentificacaoController:
             [num, den] = ctrl.pade(self.theta, 3)
             sys_pade = ctrl.tf(num, den)
             sys_atraso = ctrl.series(sys, sys_pade)
-            simulado = np.array(ctrl.forced_response(sys, T=self.tempo, U=self.entrada))
             atraso_simulado = np.array(ctrl.forced_response(sys_atraso, T=self.tempo, U=self.entrada))
-            self.eqm = np.sqrt(np.mean(simulado[1] - self.saida)**2)
-            self.eqm_atraso = np.sqrt(np.mean(atraso_simulado[1] - self.saida)**2)
+            self.eqm = np.sqrt(np.mean(atraso_simulado[1] - self.saida)**2)
             
-            return [simulado, atraso_simulado]
+            return atraso_simulado
         else:
             raise DataNotInitialized()
 
