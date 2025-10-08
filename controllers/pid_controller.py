@@ -4,6 +4,7 @@ from core.imc import IMC
 from core.itae import ITAE
 from core.znma import ZNMA
 from core.chr import CHR, CHR_20
+from core.cec import CeC
 
 class PIDController:
     def __init__(self):
@@ -39,6 +40,10 @@ class PIDController:
             kp = CHR_20.kp(self.k, self.theta, self.tau)
             ti = CHR_20.ti(self.tau)
             td = CHR_20.td(self.theta)
+        elif method == 'CeC':
+            kp = CeC.kp(self.k, self.theta, self.tau)
+            ti = CeC.ti(self.theta, self.tau)
+            td = CeC.td(self.theta, self.tau)
         
         sys = ctrl.tf([self.k], [self.tau, 1])
         [num, den] = ctrl.pade(self.theta, 3)

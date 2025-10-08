@@ -46,7 +46,7 @@ class PageControllPID(QWidget):
         # criando dropdown button para metodos ITAE e IMC
         dropdown_label = QLabel('Selecione o método de sintonia:')
         self.methods = QComboBox()
-        self.methods.addItems(['IMC', 'ITAE', 'ZNMA', 'CHR', 'CHR_20'])
+        self.methods.addItems(['IMC', 'ITAE', 'ZNMA', 'CHR', 'CHR_20', 'CeC'])
 
         self.methods.currentIndexChanged.connect(self.switch_methods)
 
