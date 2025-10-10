@@ -1,6 +1,6 @@
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from PySide6.QtWidgets import QWidget, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QFileDialog, QMessageBox
 import numpy as np
 
 class Curve:
@@ -58,3 +58,22 @@ class PlotWidget(QWidget):
         # Atualiza as curvas e redesenha o gráfico
         self.curves = curves
         self.plot_chart()
+
+    def export_chart(self):
+
+        save_path, _ = QFileDialog.getSaveFileName(
+            self,
+            'Salvar gráfico como . . .',
+            '', # diretorio inicial = ao diretorio atual
+            'Imagens (*.png *.jpg *.jpeg *.pdf *.svg)'  # filtros de extensão
+        )
+
+        # garante que o caminho foi selecionado
+        if save_path:
+            try:
+                self.canvas.figure.savefig(save_path, dpi=800, bbox_inches='tight')
+                QMessageBox.information(self, 'Sucesso', f'Gráfico salvo  em:\n{save_path}')
+            except Exception as e:
+                QMessageBox.critical(self, 'Erro', f'Falha ao salvar gráfico:\n{e}')
+
+        

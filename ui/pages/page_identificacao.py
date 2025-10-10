@@ -41,6 +41,12 @@ class PageIdentificacao(QWidget):
         label.setStyleSheet("font-size: 15px; font-weight: semi-bold; margin-bottom: 20px;")
 
         # --- Layout grafico mais botões ---
+        chart_layout = QHBoxLayout()   
+        self.plot = PlotWidget(
+            title='Resposta do Sistema',
+            x_label='Tempo',
+            y_label='Amplitude'
+        )
         side_form_layout = QVBoxLayout()
         # form
         form = QFormLayout()
@@ -65,17 +71,12 @@ class PageIdentificacao(QWidget):
         form.addRow("Theta:", self.theta_form)
         form.addRow("EQM:", self.eqm_form)
         export_button = QPushButton("Exportar")
+        export_button.clicked.connect(self.plot.export_chart)
 
         side_form_layout.addLayout(form)
         side_form_layout.addWidget(export_button)
 
         # --- Montagem final do form ---
-        chart_layout = QHBoxLayout()   
-        self.plot = PlotWidget(
-            title='Resposta do Sistema',
-            x_label='Tempo',
-            y_label='Amplitude'
-        )
         chart_layout.addWidget(self.plot)
         chart_layout.addLayout(side_form_layout)
 

@@ -58,6 +58,14 @@ class PageControllPID(QWidget):
         top_layout.addWidget(self.methods)
         top_layout.addStretch()
 
+        inferior_layout = QHBoxLayout()
+        self.plot = PlotWidget(
+            title='Sistema com Controle PID',
+            x_label='Tempo',
+            y_label='Amplitude'
+        )
+        controll_params_form = QFormLayout()
+
         # --- Lateral Form Layout
         lateral_layout = QVBoxLayout()
         params_form = QFormLayout()
@@ -86,10 +94,9 @@ class PageControllPID(QWidget):
         buttons_layout.addWidget(export_button)
         buttons_layout.addWidget(simulate_button)
         simulate_button.clicked.connect(self.sintonizar)
+        export_button.clicked.connect(self.plot.export_chart)
 
         # --- Parametros de controle layout
-        controll_params_form = QFormLayout()
-
         self.tr_form = QDoubleSpinBox()
         self.tr_form.setMinimum(-9999999)
         self.tr_form.setMaximum(99999999)
@@ -117,15 +124,6 @@ class PageControllPID(QWidget):
         lateral_layout.addLayout(controll_params_form)
 
         # --- Layout inferior
-        inferior_layout = QHBoxLayout()
-
-        self.plot = PlotWidget(
-            title='Sistema com Controle PID',
-            x_label='Tempo',
-            y_label='Amplitude'
-        )
-
-
         inferior_layout.addWidget(self.plot)
         inferior_layout.addLayout(lateral_layout)
 
@@ -211,5 +209,4 @@ class PageControllPID(QWidget):
         ]
 
         self.plot.update_curves(curves)
-
 
