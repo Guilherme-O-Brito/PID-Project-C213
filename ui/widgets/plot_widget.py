@@ -55,7 +55,7 @@ class PlotWidget(QWidget):
         self.canvas.draw()
     
     def update_curves(self, curves: list[Curve]):
-        # Atualiza as curvas e redesenha o gráfico
+        # atualiza as curvas e redesenha o gráfico
         self.curves = curves
         self.plot_chart()
 
@@ -75,5 +75,3 @@ class PlotWidget(QWidget):
                 QMessageBox.information(self, 'Sucesso', f'Gráfico salvo  em:\n{save_path}')
             except Exception as e:
                 QMessageBox.critical(self, 'Erro', f'Falha ao salvar gráfico:\n{e}')
-
-        

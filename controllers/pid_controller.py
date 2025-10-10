@@ -63,7 +63,7 @@ class PIDController:
         
         tr = self.tempo[rise_end] - self.tempo[rise_start]
         ts = 0
-        # Tempo de acomodação (2%)
+        # tempo de acomodação (2%)
         low = steady_value * (1 - 0.02)
         high = steady_value * (1 + 0.02)
         for i in range(len(sintonia[1])-1, -1, -1):
@@ -100,7 +100,7 @@ class PIDController:
         
         tr = self.tempo[rise_end] - self.tempo[rise_start]
         ts = 0
-        # Tempo de acomodação (2%)
+        # tempo de acomodação (2%)
         low = steady_value * (1 - 0.02)
         high = steady_value * (1 + 0.02)
         for i in range(len(sintonia[1])-1, -1, -1):
@@ -116,7 +116,3 @@ class PIDController:
             'params': [kp, ti, td],
             'controll_params': [tr, ts, mp, steady_value, ess]
         }
-    
-
-
-

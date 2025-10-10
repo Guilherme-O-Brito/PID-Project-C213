@@ -1,4 +1,4 @@
-# Método de Ziegler-Nichols Malha Aberta - ZNMA
+# método de Ziegler-Nichols Malha Aberta - ZNMA
 class ZNMA:
 
     @staticmethod

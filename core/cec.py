@@ -1,4 +1,4 @@
-# Método Cohen e Coon sem overshoot
+# método Cohen e Coon sem overshoot
 class CeC:
 
     @staticmethod

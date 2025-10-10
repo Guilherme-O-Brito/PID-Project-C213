@@ -13,11 +13,11 @@ class MainWindow(QMainWindow):
         pid_controller = PIDController()
         identificacao_controller.pid_controller = pid_controller
 
-        self.setWindowTitle("Projeto Prático C213 - Sistemas Embarcados")
+        self.setWindowTitle('Projeto Prático C213 - Sistemas Embarcados')
 
         self.tabs = QTabWidget()
-        self.tabs.addTab(PageInicio(), "Início")
-        self.tabs.addTab(PageIdentificacao(identificacao_controller), "Identificação")
-        self.tabs.addTab(PageControllPID(pid_controller), "Controle PID")
+        self.tabs.addTab(PageInicio(), 'Início')
+        self.tabs.addTab(PageIdentificacao(identificacao_controller), 'Identificação')
+        self.tabs.addTab(PageControllPID(pid_controller), 'Controle PID')
 
         self.setCentralWidget(self.tabs)

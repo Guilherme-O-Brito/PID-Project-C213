@@ -1,4 +1,4 @@
-# Método CHR sem overshoot
+# método CHR sem overshoot
 class CHR:
 
     @staticmethod
@@ -13,7 +13,7 @@ class CHR:
     def td(theta):
         return (theta/2)
 
-# Método CHR 20% de overshoot
+# método CHR 20% de overshoot
 class CHR_20:
 
     @staticmethod

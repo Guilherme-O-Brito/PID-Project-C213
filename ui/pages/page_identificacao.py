@@ -13,32 +13,32 @@ class PageIdentificacao(QWidget):
         # Layout principal (vertical)
         main_layout = QVBoxLayout()
 
-        # --- Texto central ---
-        label_title = QLabel("Projeto Prático C213 - Sistemas Embarcados")
+        # --- texto central ---
+        label_title = QLabel('Projeto Prático C213 - Sistemas Embarcados')
         label_title.setAlignment(Qt.AlignCenter)
-        label_title.setStyleSheet("font-size: 20px; font-weight: bold; margin-bottom: 20px;")
+        label_title.setStyleSheet('font-size: 20px; font-weight: bold; margin-bottom: 20px;')
 
-        # --- Layout dos botões (horizontal) ---
+        # --- layout dos botões (horizontal) ---
         button_layout = QHBoxLayout()
-        button_layout.setSpacing(40)  # Espaçamento entre os botões
+        button_layout.setSpacing(40)  # espaçamento entre os botões
 
-        btn_read = QPushButton("Escolher Arquivo")
-        btn_read.setStyleSheet("font-size: 14px; padding: 5px 10px;")
+        btn_read = QPushButton('Escolher Arquivo')
+        btn_read.setStyleSheet('font-size: 14px; padding: 5px 10px;')
 
         btn_read.clicked.connect(self.open_file)
 
         self.file_label = QLabel('Nenhum arquivo selecionado')
 
-        # Centraliza os botões horizontalmente
+        # centraliza os botões horizontalmente
         button_layout.addStretch()
         button_layout.addWidget(btn_read)
         button_layout.addWidget(self.file_label)
         button_layout.addStretch()
 
-        # Titulo
-        label = QLabel("Dados de Identificação do Sistema por Smith")
+        # titulo
+        label = QLabel('Dados de Identificação do Sistema por Smith')
         label.setAlignment(Qt.AlignCenter)
-        label.setStyleSheet("font-size: 15px; font-weight: semi-bold; margin-bottom: 20px;")
+        label.setStyleSheet('font-size: 15px; font-weight: semi-bold; margin-bottom: 20px;')
 
         # --- Layout grafico mais botões ---
         chart_layout = QHBoxLayout()   
@@ -66,11 +66,11 @@ class PageIdentificacao(QWidget):
         self.eqm_form.setMinimum(-9999999)
         self.eqm_form.setEnabled(False)
         self.eqm_form.setMaximum(99999999)
-        form.addRow("K:", self.k_form)
-        form.addRow("Tau:", self.tau_form)
-        form.addRow("Theta:", self.theta_form)
-        form.addRow("EQM:", self.eqm_form)
-        export_button = QPushButton("Exportar")
+        form.addRow('K:', self.k_form)
+        form.addRow('Tau:', self.tau_form)
+        form.addRow('Theta:', self.theta_form)
+        form.addRow('EQM:', self.eqm_form)
+        export_button = QPushButton('Exportar')
         export_button.clicked.connect(self.plot.export_chart)
 
         side_form_layout.addLayout(form)
@@ -106,7 +106,7 @@ class PageIdentificacao(QWidget):
             self.identificacao_controller.read_data(path)
             # usa o metodo smith para identificar parametros do sistema
             self.identificacao_controller.identificar_sistema()
-            self.file_label.setText(f'Dataset Selecionado: {path}')
+            self.file_label.setText(f'Dataset selecionado: {path}')
             self.k_form.setValue(self.identificacao_controller.k)
             self.tau_form.setValue(self.identificacao_controller.tau)
             self.theta_form.setValue(self.identificacao_controller.theta)

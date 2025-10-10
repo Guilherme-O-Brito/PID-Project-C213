@@ -16,27 +16,27 @@ class PageControllPID(QWidget):
         # Layout principal (vertical)
         main_layout = QVBoxLayout()
 
-        # --- Texto central ---
-        label_title = QLabel("Projeto Prático C213 - Sistemas Embarcados")
+        # --- texto central ---
+        label_title = QLabel('Projeto Prático C213 - Sistemas Embarcados')
         label_title.setAlignment(Qt.AlignCenter)
-        label_title.setStyleSheet("font-size: 20px; font-weight: bold; margin-bottom: 20px;")
+        label_title.setStyleSheet('font-size: 20px; font-weight: bold; margin-bottom: 20px;')
 
-        # --- Layout dos botões (horizontal) ---
+        # --- layout dos botões (horizontal) ---
         top_layout = QHBoxLayout()
-        top_layout.setSpacing(40)  # Espaçamento entre os botões
+        top_layout.setSpacing(40)  # espaçamento entre os botões
 
         radio_button_label = QLabel('Seleção de Sintonia: ')
 
-        # Cria dois radio buttons
-        self.opcao1 = QRadioButton("Método Automático")
-        self.opcao2 = QRadioButton("Modo Manual")
+        # cria dois radio buttons
+        self.opcao1 = QRadioButton('Método Automático')
+        self.opcao2 = QRadioButton('Modo Manual')
 
-        # Agrupa para que apenas um possa ser selecionado
+        # agrupa para que apenas um possa ser selecionado
         radio_button = QButtonGroup(self)
         radio_button.addButton(self.opcao1)
         radio_button.addButton(self.opcao2)
         
-        # Define um como padrão
+        # define um como padrão
         self.opcao1.setChecked(True)
 
         self.opcao1.toggled.connect(self.switch_methods)
@@ -82,21 +82,21 @@ class PageControllPID(QWidget):
         self.lambda_form = QDoubleSpinBox()
         self.lambda_form.setMinimum(-9999999)
         self.lambda_form.setMaximum(99999999)
-        params_form.addRow("Kp:", self.kp_form)
-        params_form.addRow("Ti:", self.ti_form)
-        params_form.addRow("Td:", self.td_form)
-        params_form.addRow("λ:", self.lambda_form)
+        params_form.addRow('Kp:', self.kp_form)
+        params_form.addRow('Ti:', self.ti_form)
+        params_form.addRow('Td:', self.td_form)
+        params_form.addRow('λ:', self.lambda_form)
         
         # --- buttons layout ---
         buttons_layout = QHBoxLayout()
-        export_button = QPushButton("Exportar")
-        simulate_button = QPushButton("Sintonizar")
+        export_button = QPushButton('Exportar')
+        simulate_button = QPushButton('Sintonizar')
         buttons_layout.addWidget(export_button)
         buttons_layout.addWidget(simulate_button)
         simulate_button.clicked.connect(self.sintonizar)
         export_button.clicked.connect(self.plot.export_chart)
 
-        # --- Parametros de controle layout
+        # --- parametros de controle layout
         self.tr_form = QDoubleSpinBox()
         self.tr_form.setMinimum(-9999999)
         self.tr_form.setMaximum(99999999)
@@ -113,21 +113,21 @@ class PageControllPID(QWidget):
         self.erro_form.setMinimum(-9999999)
         self.erro_form.setEnabled(False)
         self.erro_form.setMaximum(99999999)
-        controll_params_form.addRow("Tr (tempo de subida):", self.tr_form)
-        controll_params_form.addRow("Ts (acomodação):", self.ts_form)
-        controll_params_form.addRow("Mp (overshoot):", self.mp_form)
-        controll_params_form.addRow("Erro em regime permanente:", self.erro_form)
+        controll_params_form.addRow('Tr (tempo de subida):', self.tr_form)
+        controll_params_form.addRow('Ts (acomodação):', self.ts_form)
+        controll_params_form.addRow('Mp (overshoot):', self.mp_form)
+        controll_params_form.addRow('Erro em regime permanente:', self.erro_form)
 
         # --- conectando layouts ---
         lateral_layout.addLayout(params_form)
         lateral_layout.addLayout(buttons_layout)
         lateral_layout.addLayout(controll_params_form)
 
-        # --- Layout inferior
+        # --- layout inferior
         inferior_layout.addWidget(self.plot)
         inferior_layout.addLayout(lateral_layout)
 
-        # --- Montagem Final ---
+        # --- montagem final ---
         main_layout.addStretch()
         main_layout.addWidget(label_title)
         main_layout.addLayout(top_layout)
